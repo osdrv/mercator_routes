@@ -10,8 +10,8 @@
          isPathRelative = "1"
          filePath = "PointLoader.h"
          timestampString = "341863723.030001"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
+         startingColumnNumber = "2147483647"
+         endingColumnNumber = "2147483647"
          startingLineNumber = "21"
          endingLineNumber = "21"
          landmarkName = "class PointLoader"
@@ -24,10 +24,22 @@
          isPathRelative = "1"
          filePath = "Route.cpp"
          timestampString = "342106581.146656"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
+         startingColumnNumber = "2147483647"
+         endingColumnNumber = "2147483647"
          startingLineNumber = "14"
          endingLineNumber = "14">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "0"
+         filePath = "/Users/4pcbr/workspace/cinder/boost/boost/system/system_error.hpp"
+         timestampString = "343148529.470916"
+         startingColumnNumber = "2147483647"
+         endingColumnNumber = "2147483647"
+         startingLineNumber = "49"
+         endingLineNumber = "49">
       </FileBreakpoint>
    </FileBreakpoints>
 </Bucket>

@@ -14,13 +14,14 @@
 
 #define ROUTES_SAME_TIME 50
 #define AIRPORTS_SAME_TIME 250
-#define DISPLAY_WIDTH 1400
-#define DISPLAY_HEIGHT 800
+#define DISPLAY_WIDTH 1920
+#define DISPLAY_HEIGHT 1080
 #define MOVIE_FILENAME "avialines.mov"
-#define ROUTES_LIMIT 1000
+#define ROUTES_LIMIT 10000
+#define BACKGROUND_IMAGE "routes-map-mercator.png"
 
 #define WRITE_MOVIE false
-#define DRAW_BACKGROUND false
+#define DRAW_BACKGROUND true
 
 using namespace ci;
 using namespace ci::app;
@@ -39,6 +40,7 @@ class TransportApp : public AppBasic {
     gl::Texture background;
     map<int, list<int> >airport_routes;
     qtime::MovieWriter movie;
+    bool gonna_draw_airports;
   public:
     void prepareSettings( Settings *settings );
     void addActiveRoute( int to, int from );
@@ -60,6 +62,8 @@ void TransportApp::prepareSettings( Settings *settings ) {
         format.setQuality( 0.5f );
         movie = qtime::MovieWriter( getDocumentsDirectory() + MOVIE_FILENAME, DISPLAY_WIDTH, DISPLAY_HEIGHT, format );
     }
+    
+    this->gonna_draw_airports = true;
 }
 
 void TransportApp::setup() {
@@ -110,7 +114,7 @@ void TransportApp::setup() {
     
     this->active_airport_iterator = airports.begin();
     
-    background = gl::Texture( loadImage( loadResource( "map.jpg" ) ) );
+    background = gl::Texture( loadImage( loadResource( BACKGROUND_IMAGE ) ) );
     
     gl::enableAlphaBlending();
     
@@ -184,19 +188,27 @@ void TransportApp::draw() {
 	
     gl::clear( Color( 0, 0, 0 ) );
     
-    gl::draw( background, getWindowBounds() );
+    if ( DRAW_BACKGROUND ) {
+        gl::draw( background, getWindowBounds() );
+    }
     
     bool airports_drawn = true;
     
-    for ( list<Airport>::iterator a = active_airports.begin(); a != active_airports.end(); ++a ) {
-        a->step();
-        a->draw();
-        airports_drawn = airports_drawn && a->isComplete();
-    }
-    
-    if ( airports_drawn ) {
-        airports_drawn = airports_drawn && !( pushAirports() );
-    }
+//    if ( this->gonna_draw_airports ) {
+        for ( list<Airport>::iterator a = active_airports.begin(); a != active_airports.end(); ++a ) {
+            a->step();
+            a->draw();
+            airports_drawn = airports_drawn && a->isComplete();
+        }
+        
+        if ( airports_drawn ) {
+            airports_drawn = airports_drawn && !( pushAirports() );
+            if ( airports_drawn && this->gonna_draw_airports ) {
+//                writeImage( "/tmp/airports.png", copyWindowSurface() );
+                this->gonna_draw_airports = false;
+            }
+        }
+//    }
     
     if ( airports_drawn ) {
         bool routes_drawn = true;
@@ -210,11 +222,14 @@ void TransportApp::draw() {
             routes_drawn = routes_drawn && !( pushRoutes() );
         }
         
-        if ( WRITE_MOVIE ) {
-            if ( routes_drawn ) {
-                this->movie.finish();
-                quit();
+        if ( routes_drawn ) {
+            if ( WRITE_MOVIE ) {
+                if ( routes_drawn ) {
+                    this->movie.finish();
+                }
             }
+//            writeImage( "/tmp/routes.png", copyWindowSurface() );
+//            quit();
         }
     }
 

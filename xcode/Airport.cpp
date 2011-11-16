@@ -13,7 +13,7 @@
 #include "Mercator.h"
 
 #define AIRPORT_OPACITY_STEP 0.05f
-#define AIRPORT_BOUND_OPACITY 0.4f
+#define AIRPORT_BOUND_OPACITY 0.3f
 #define AIRPORT_RADIUS 2.0f
 
 using namespace ci;
@@ -37,7 +37,7 @@ void Airport::step() {
 }
 
 void Airport::draw() {
-    gl::color( ColorA( 0.8f, 0.7f, 0.4f, this->opacity ) );
+    gl::color( ColorA( 1.0f, 0.5686f, 0.02745f, this->opacity ) );
     gl::drawSolidCircle( Mercator::mapLatLon( this->point ) , AIRPORT_RADIUS );
 }
 

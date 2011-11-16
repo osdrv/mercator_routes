@@ -91,7 +91,7 @@ void Route::step() {
 }
 
 void Route::draw() {
-    gl::color( ColorA( 0.8f, 0.8f, 0.8f, 0.2f ) );
+    gl::color( ColorA( 1.0f, 0.51f, 0.157f, 0.3f ) );
     gl::draw( this->shape );
 }
 

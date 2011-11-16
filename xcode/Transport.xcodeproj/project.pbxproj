@@ -21,6 +21,7 @@
 		662C09EC14599884006C1EA6 /* PointLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 662C09EB14599884006C1EA6 /* PointLoader.cpp */; };
 		662C14BB145E9B78006C1EA6 /* Route.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 662C14BA145E9B78006C1EA6 /* Route.cpp */; };
 		664172D714615ACA004730FD /* Mercator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 664172D614615AC9004730FD /* Mercator.cpp */; };
+		6655CC81147429480008B12D /* routes-map-mercator.png in Resources */ = {isa = PBXBuildFile; fileRef = 6655CC80147429480008B12D /* routes-map-mercator.png */; };
 		66C398B2146015F600674B08 /* map.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 66C398B1146015F600674B08 /* map.jpg */; };
 		66C398BF1460641C00674B08 /* Airport.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 66C398BE1460641C00674B08 /* Airport.cpp */; };
 		66C398C7146092ED00674B08 /* routes.xml in Resources */ = {isa = PBXBuildFile; fileRef = 66C398C5146092ED00674B08 /* routes.xml */; };
@@ -51,6 +52,7 @@
 		662C14BA145E9B78006C1EA6 /* Route.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Route.cpp; sourceTree = "<group>"; };
 		664172D414615A2E004730FD /* Mercator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Mercator.h; sourceTree = "<group>"; };
 		664172D614615AC9004730FD /* Mercator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Mercator.cpp; sourceTree = "<group>"; };
+		6655CC80147429480008B12D /* routes-map-mercator.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "routes-map-mercator.png"; sourceTree = "<group>"; };
 		66C398B1146015F600674B08 /* map.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = map.jpg; path = ../resources/map.jpg; sourceTree = "<group>"; };
 		66C398BD1460637C00674B08 /* Airport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Airport.h; sourceTree = "<group>"; };
 		66C398BE1460641C00674B08 /* Airport.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Airport.cpp; sourceTree = "<group>"; };
@@ -155,6 +157,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				6655CC80147429480008B12D /* routes-map-mercator.png */,
 				66C398C81460969F00674B08 /* airports.xml */,
 				66C398C5146092ED00674B08 /* routes.xml */,
 				66C398B1146015F600674B08 /* map.jpg */,
@@ -227,6 +230,7 @@
 				66C398B2146015F600674B08 /* map.jpg in Resources */,
 				66C398C7146092ED00674B08 /* routes.xml in Resources */,
 				66C398C91460969F00674B08 /* airports.xml in Resources */,
+				6655CC81147429480008B12D /* routes-map-mercator.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -251,6 +255,7 @@
 		C01FCF4B08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CINDER_PATH = ../../../cinder;
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
@@ -274,6 +279,7 @@
 		C01FCF4C08A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CINDER_PATH = ../../../cinder;
 				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_FAST_MATH = YES;
@@ -302,7 +308,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = i386;
-				CINDER_PATH = ../../cinder;
+				CINDER_PATH = ../../../cinder;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "\"$(CINDER_PATH)/boost\"";
@@ -317,7 +323,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = i386;
-				CINDER_PATH = ../../cinder;
+				CINDER_PATH = ../../../cinder;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "\"$(CINDER_PATH)/boost\"";

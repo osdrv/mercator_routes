@@ -14,10 +14,12 @@
 
 #define ROUTES_SAME_TIME 50
 #define AIRPORTS_SAME_TIME 250
-#define DISPLAY_WIDTH 1920
-#define DISPLAY_HEIGHT 1080
+//#define DISPLAY_WIDTH 1920
+//#define DISPLAY_HEIGHT 1080
+#define DISPLAY_WIDTH 1280
+#define DISPLAY_HEIGHT 800
 #define MOVIE_FILENAME "avialines.mov"
-#define ROUTES_LIMIT 10000
+#define ROUTES_LIMIT 1000
 #define BACKGROUND_IMAGE "routes-map-mercator.png"
 
 #define WRITE_MOVIE false
@@ -116,8 +118,6 @@ void TransportApp::setup() {
     
     background = gl::Texture( loadImage( loadResource( BACKGROUND_IMAGE ) ) );
     
-    gl::enableAlphaBlending();
-    
 //    f1 = airport_routes.begin();
     
 //    if ( f1 != airport_routes.end() ) {
@@ -186,6 +186,8 @@ bool TransportApp::pushAirports() {
 
 void TransportApp::draw() {
 	
+    gl::enableAlphaBlending();
+    
     gl::clear( Color( 0, 0, 0 ) );
     
     if ( DRAW_BACKGROUND ) {

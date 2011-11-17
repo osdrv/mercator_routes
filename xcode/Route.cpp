@@ -73,7 +73,11 @@ void Route::step() {
     }
     
     float lon = ( this->current.y + this->sign * this->step_lon ) * M_PI / 180;
+    if ( abs( this->current.y - this->to.y ) <= this->step_lon ) {
+        lon = this->to.y * M_PI / 180;
+    }
     float lat = atan( ( tan( this->lat1 ) * sin( this->lon2 - lon ) / sin( this->lon2 - this->lon1 ) ) + ( tan( this->lat2 ) * sin( lon - this->lon1 ) / sin( this->lon2 - this->lon1 ) ) );
+    
     
     Vec2f next_point = Vec2f( lat * 180 / M_PI, lon * 180 / M_PI );
     
@@ -91,7 +95,7 @@ void Route::step() {
 }
 
 void Route::draw() {
-    gl::color( ColorA( 1.0f, 0.51f, 0.157f, 0.3f ) );
+    gl::color( ColorA( 1.0f, 0.51f, 0.157f, 0.4f ) );
     gl::draw( this->shape );
 }
 

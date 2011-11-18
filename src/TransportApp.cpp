@@ -36,7 +36,8 @@ class TransportApp : public AppBasic {
     list<Airport> airports, active_airports;
     list<Route> routes, tmp_routes, active_routes;
     list<Route>::iterator active_route_iterator;
-    list<Airport>::iterator active_airport_iterator;
+//    list<Airport>::iterator active_airport_iterator;
+    map<int, Airport>::iterator active_airport_iterator;
     list< pair<int, int> > routes_map;
     map<int, Airport> airports_map;
     gl::Texture background;
@@ -88,6 +89,8 @@ void TransportApp::setup() {
         if ( from == airports_map.end() || to == airports_map.end()) {
             continue;
         }
+        from->second.pushFrom( 1 );
+        to->second.pushTo( 1 );
         routes.push_back( Route( from->second, to->second ) );
         
 //        f1 = airport_routes.find( ri->first );
@@ -114,7 +117,7 @@ void TransportApp::setup() {
     console() << routes.size() << endl;
     this->active_route_iterator = routes.begin();
     
-    this->active_airport_iterator = airports.begin();
+    this->active_airport_iterator = airports_map.begin();
     
     background = gl::Texture( loadImage( loadResource( BACKGROUND_IMAGE ) ) );
     
@@ -169,15 +172,15 @@ bool TransportApp::pushRoutes() {
 }
 
 bool TransportApp::pushAirports() {
-    if ( this->active_airport_iterator == this->airports.end() ) {
+    if ( this->active_airport_iterator == this->airports_map.end() ) {
         return false;
     }
     
     for ( int i = 0; i < AIRPORTS_SAME_TIME; ++i ) {
-        if ( this->active_airport_iterator == this->airports.end() ) {
+        if ( this->active_airport_iterator == this->airports_map.end() ) {
             return false;
         }
-        this->active_airports.push_back( *this->active_airport_iterator );
+        this->active_airports.push_back( this->active_airport_iterator->second );
         ++this->active_airport_iterator;
     }
     
@@ -195,7 +198,6 @@ void TransportApp::draw() {
     }
     
     bool airports_drawn = true;
-    
 //    if ( this->gonna_draw_airports ) {
         for ( list<Airport>::iterator a = active_airports.begin(); a != active_airports.end(); ++a ) {
             a->step();
@@ -213,26 +215,26 @@ void TransportApp::draw() {
 //    }
     
     if ( airports_drawn ) {
-        bool routes_drawn = true;
-        for ( list<Route>::iterator ari = active_routes.begin(); ari != active_routes.end(); ++ari ) {
+//        bool routes_drawn = true;
+        for ( list<Route>::iterator ari = routes.begin(); ari != routes.end(); ++ari ) {
             ari->step();
             ari->draw();
-            routes_drawn = routes_drawn && ari->isComplete();
+//            routes_drawn = routes_drawn && ari->isComplete();
         }
 
-        if ( routes_drawn ) {
-            routes_drawn = routes_drawn && !( pushRoutes() );
-        }
+//        if ( routes_drawn ) {
+//            routes_drawn = routes_drawn && !( pushRoutes() );
+//        }
         
-        if ( routes_drawn ) {
+//        if ( routes_drawn ) {
             if ( WRITE_MOVIE ) {
-                if ( routes_drawn ) {
+//                if ( routes_drawn ) {
                     this->movie.finish();
-                }
+//                }
             }
 //            writeImage( "/tmp/routes.png", copyWindowSurface() );
 //            quit();
-        }
+//        }
     }
 
     gl::color( Color( 1.0f, 1.0f, 1.0f ) );

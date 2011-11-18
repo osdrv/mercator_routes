@@ -15,6 +15,7 @@
 #define AIRPORT_OPACITY_STEP 0.05f
 #define AIRPORT_BOUND_OPACITY 0.3f
 #define AIRPORT_RADIUS 2.0f
+#define RADIUS_FACTOR 0.05f
 
 using namespace ci;
 using namespace std;
@@ -24,6 +25,9 @@ Airport::Airport( const int id, Vec2f point ) {
     this->point = point;
     this->is_drawn = false;
     this->opacity = 0.0f;
+    this->from_count = 0;
+    this->to_count = 0;
+    this->resetRadius();
 }
 
 void Airport::step() {
@@ -38,7 +42,7 @@ void Airport::step() {
 
 void Airport::draw() {
     gl::color( ColorA( 1.0f, 0.5686f, 0.02745f, this->opacity ) );
-    gl::drawSolidCircle( Mercator::mapLatLon( this->point ) , AIRPORT_RADIUS );
+    gl::drawSolidCircle( Mercator::mapLatLon( this->point ) , this->radius );
 }
 
 int Airport::getId() {
@@ -50,3 +54,17 @@ ci::Vec2f Airport::getPoint() {
 }
 
 bool Airport::isComplete() { return this->is_drawn; }
+
+void Airport::pushFrom( int cnt ) {
+    this->from_count += cnt;
+    this->resetRadius();
+}
+
+void Airport::pushTo( int cnt ) {
+    this->to_count += cnt;
+    this->resetRadius();
+}
+
+void Airport::resetRadius() {
+    this->radius = AIRPORT_RADIUS;// + ( this->from_count + this->to_count ) * RADIUS_FACTOR;
+}

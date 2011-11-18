@@ -17,8 +17,9 @@ using namespace std;
 class Airport {
     int id;
     Vec2f point;
-    float opacity;
+    float opacity, radius;
     bool is_drawn;
+    int from_count, to_count;
 public:
     Airport( const int id, Vec2f point );
     int getId();
@@ -26,6 +27,9 @@ public:
     void draw();
     void step();
     bool isComplete();
+    void pushFrom( const int cnt );
+    void pushTo( const int cnt );
+    void resetRadius();
 };
 
 

@@ -28,9 +28,9 @@ Route::Route( Airport from, Airport to ) {
     this->to = to.getPoint();
     this->to_id = to.getId();
     this->complete = false;
+    this->parity = true;
 
     this->current = this->from;
-    this->steps = 0;
     this->via_pacific = false;
     this->lon_range = fabs( this->from.y - this->to.y );
     this->sign = ( ( this->from.y - this->to.y ) > 0 ) ? -1 : 1;
@@ -51,15 +51,17 @@ Route::Route( Airport from, Airport to ) {
         this->lon1 = this->from.y * M_PI / 180;
         this->lon2 = this->to.y * M_PI / 180;
     }
-
-    this->shape.moveTo( Mercator::mapLatLon( this->from ) );
+    
+    this->max_steps = round( lon_range / step_lon );
+    this->steps = 0;
+    this->step_cycle = 0;
 }
 
 void Route::step() {
     
-    if ( this->complete ) {
-        return;
-    }
+//    if ( this->complete ) {
+//        return;
+//    }
     
     if ( ( this->lon_range < 3 ) && !this->via_pacific ) {
         this->shape.lineTo( Mercator::mapLatLon( this->to ) );
@@ -67,31 +69,54 @@ void Route::step() {
         return;
     }
 
-    if ( this->steps * this->step_lon >= this->lon_range ) {
-        this->complete = true;
-        return;
+    if ( this->steps >= this->max_steps ) {
+        this->is_complete = true;
     }
     
-    float lon = ( this->current.y + this->sign * this->step_lon ) * M_PI / 180;
-    if ( abs( this->current.y - this->to.y ) <= this->step_lon ) {
-        lon = this->to.y * M_PI / 180;
-    }
-    float lat = atan( ( tan( this->lat1 ) * sin( this->lon2 - lon ) / sin( this->lon2 - this->lon1 ) ) + ( tan( this->lat2 ) * sin( lon - this->lon1 ) / sin( this->lon2 - this->lon1 ) ) );
+//    if ( this->steps * this->step_lon >= this->lon_range ) {
+//        this->complete = true;
+//        return;
+//    }
+    this->shape = Shape2d();
+    this->shape.moveTo( Mercator::mapLatLon( this->from ) );
+    bool step_parity = this->parity;
+    Vec2f current_point = this->current;
     
-    
-    Vec2f next_point = Vec2f( lat * 180 / M_PI, lon * 180 / M_PI );
-    
-    if ( this->via_pacific ) {
-        if ( next_point.y * this->current.y < 0 ) {
-            this->shape.moveTo( Mercator::mapLatLon( Vec2f( next_point.x, ( next_point.y > 0 ) ? ( next_point.y - 180 ) : ( next_point.y + 180 ) ) ) );
+    for ( int j = 0; j < this->steps; ++j ) {
+        
+        float lon = ( current_point.y + this->sign * this->step_lon ) * M_PI / 180;
+        
+        if ( abs( current_point.y - this->to.y ) <= this->step_lon ) {
+            lon = this->to.y * M_PI / 180;
         }
-        this->shape.lineTo( Mercator::mapLatLon( Vec2f( next_point.x, ( next_point.y > 0 ) ? ( next_point.y - 180 ) : ( next_point.y + 180 ) ) ) );
-    } else {
-        this->shape.lineTo( Mercator::mapLatLon( next_point ) );
+        
+        float lat = atan( ( tan( this->lat1 ) * sin( this->lon2 - lon ) / sin( this->lon2 - this->lon1 ) ) + ( tan( this->lat2 ) * sin( lon - this->lon1 ) / sin( this->lon2 - this->lon1 ) ) );
+        
+        
+        Vec2f next_point = Vec2f( lat * 180 / M_PI, lon * 180 / M_PI );
+        Vec2f tmp_next_point = next_point;
+        
+        if ( this->via_pacific ) {
+            if ( next_point.y * current_point.y < 0 ) {
+                this->shape.moveTo( Mercator::mapLatLon( Vec2f( next_point.x, ( next_point.y > 0 ) ? ( next_point.y - 180 ) : ( next_point.y + 180 ) ) ) );
+            }
+            tmp_next_point = Vec2f( next_point.x, ( next_point.y > 0 ) ? ( next_point.y - 180 ) : ( next_point.y + 180 ) );
+        }
+        if ( step_parity ) {
+            this->shape.lineTo( Mercator::mapLatLon( tmp_next_point ) );
+        } else {
+            this->shape.moveTo( Mercator::mapLatLon( tmp_next_point ) );
+        }
+        
+        current_point = next_point;
+        step_parity = !step_parity;
     }
     
-    this->current = next_point;
-    this->steps++;
+    if ( this->is_complete ) {
+        this->parity = !this->parity;
+    } else {
+        ++this->steps;
+    }
 }
 
 void Route::draw() {

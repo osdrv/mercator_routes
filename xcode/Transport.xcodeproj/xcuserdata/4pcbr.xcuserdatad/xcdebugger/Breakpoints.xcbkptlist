@@ -41,5 +41,19 @@
          startingLineNumber = "49"
          endingLineNumber = "49">
       </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "Route.cpp"
+         timestampString = "343243965.588138"
+         startingColumnNumber = "2147483647"
+         endingColumnNumber = "2147483647"
+         startingLineNumber = "79"
+         endingLineNumber = "79"
+         landmarkName = "Route::step()"
+         landmarkType = "5">
+      </FileBreakpoint>
    </FileBreakpoints>
 </Bucket>

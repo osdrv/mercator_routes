@@ -52,6 +52,7 @@ Route::Route( Airport from, Airport to ) {
         this->lon2 = this->to.y * M_PI / 180;
     }
     
+    this->step_parity = 0;
     this->max_steps = round( lon_range / step_lon );
     this->steps = 0;
     this->step_cycle = 0;
@@ -70,7 +71,7 @@ void Route::step() {
     }
 
     if ( this->steps >= this->max_steps ) {
-        this->is_complete = true;
+        this->complete = true;
     }
     
 //    if ( this->steps * this->step_lon >= this->lon_range ) {
@@ -79,7 +80,7 @@ void Route::step() {
 //    }
     this->shape = Shape2d();
     this->shape.moveTo( Mercator::mapLatLon( this->from ) );
-    bool step_parity = this->parity;
+
     Vec2f current_point = this->current;
     
     for ( int j = 0; j < this->steps; ++j ) {
@@ -102,18 +103,21 @@ void Route::step() {
             }
             tmp_next_point = Vec2f( next_point.x, ( next_point.y > 0 ) ? ( next_point.y - 180 ) : ( next_point.y + 180 ) );
         }
-        if ( step_parity ) {
-            this->shape.lineTo( Mercator::mapLatLon( tmp_next_point ) );
-        } else {
+        
+        if ( this->complete && ( j == this->step_parity ) ) {
             this->shape.moveTo( Mercator::mapLatLon( tmp_next_point ) );
+        } else {
+            this->shape.lineTo( Mercator::mapLatLon( tmp_next_point ) );
         }
         
         current_point = next_point;
-        step_parity = !step_parity;
     }
     
-    if ( this->is_complete ) {
-        this->parity = !this->parity;
+    if ( this->complete ) {
+        ++step_parity;
+        if ( step_parity >= this->max_steps ) {
+            step_parity = 0;
+        }
     } else {
         ++this->steps;
     }

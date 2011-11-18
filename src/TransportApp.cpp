@@ -14,10 +14,10 @@
 
 #define ROUTES_SAME_TIME 50
 #define AIRPORTS_SAME_TIME 250
-//#define DISPLAY_WIDTH 1920
-//#define DISPLAY_HEIGHT 1080
-#define DISPLAY_WIDTH 1280
-#define DISPLAY_HEIGHT 800
+#define DISPLAY_WIDTH 1920
+#define DISPLAY_HEIGHT 1080
+//#define DISPLAY_WIDTH 1280
+//#define DISPLAY_HEIGHT 800
 #define MOVIE_FILENAME "avialines.mov"
 #define ROUTES_LIMIT 1000
 #define BACKGROUND_IMAGE "routes-map-mercator.png"

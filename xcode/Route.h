@@ -20,7 +20,7 @@ class Route {
     Shape2d shape;
     bool complete, via_pacific, parity;
     float lon_range, lat1, lat2, lon1, lon2, step_lon;
-    int direction, steps, max_steps, step_cycle, from_id, to_id;
+    int direction, steps, max_steps, step_cycle, from_id, to_id, step_parity;
     char sign;
 public:
     Route();

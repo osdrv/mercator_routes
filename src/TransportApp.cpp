@@ -14,15 +14,15 @@
 
 #define ROUTES_SAME_TIME 50
 #define AIRPORTS_SAME_TIME 250
-#define DISPLAY_WIDTH 1920
-#define DISPLAY_HEIGHT 1080
-//#define DISPLAY_WIDTH 1280
-//#define DISPLAY_HEIGHT 800
+//#define DISPLAY_WIDTH 1920
+//#define DISPLAY_HEIGHT 1080
+#define DISPLAY_WIDTH 1280
+#define DISPLAY_HEIGHT 800
 #define MOVIE_FILENAME "avialines.mov"
 #define ROUTES_LIMIT 1000
 #define BACKGROUND_IMAGE "routes-map-mercator.png"
 
-#define WRITE_MOVIE false
+#define WRITE_MOVIE true
 #define DRAW_BACKGROUND true
 
 using namespace ci;
@@ -226,11 +226,12 @@ void TransportApp::draw() {
 //            routes_drawn = routes_drawn && !( pushRoutes() );
 //        }
         
-//        if ( routes_drawn ) {
+//        if ( getElapsedSeconds() > 1000 ) {
             if ( WRITE_MOVIE ) {
-//                if ( routes_drawn ) {
-                    this->movie.finish();
-//                }
+                if ( getElapsedSeconds() > 600 ) {
+                    movie.finish();
+                    quit();
+                }
             }
 //            writeImage( "/tmp/routes.png", copyWindowSurface() );
 //            quit();
